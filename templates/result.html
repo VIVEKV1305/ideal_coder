@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Personalized Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container dashboard-container">
+        <div class="header-section">
+            <h1>Your Nutrition Dashboard</h1>
+            <p class="subtitle">Your personalized macro breakdown and daily tracker.</p>
+        </div>
+        
+        <div class="summary-stats">
+            <div class="stat-box">
+                <span class="stat-label">Base Metabolic Rate</span>
+                <span class="stat-value"><span id="display-bmr"></span> <small>kcal</small></span>
+            </div>
+            <div class="stat-box highlight-box">
+                <span class="stat-label">Daily Calorie Target</span>
+                <span class="stat-value"><span id="display-cals"></span> <small>kcal</small></span>
+            </div>
+        </div>
+
+      
+
+        <div id="diet-plan-tables" class="diet-section"></div>
+
+        <div class="tracking-box">
+            <div class="tracking-header">
+                <h2>Daily Activity Log</h2>
+                <p>Track your meals and workouts to stay within your net target.</p>
+            </div>
+
+            <div class="tracker-stats-grid">
+                <div class="metric-card goal">
+                    <span class="icon">🎯</span>
+                    <span class="label">Goal</span>
+                    <span class="value"><span id="track-goal">0</span><small><small><small>kcal</small></small></small></span>
+                </div>
+                <div class="metric-card eaten">
+                    <span class="icon">🍔</span>
+                    <span class="label">Eaten</span>
+                    <span class="value"><span id="track-eaten">0</span> <small><small><small>kcal</small></small></small></span>
+                </div>
+                <div class="metric-card burned">
+                    <span class="icon">🔥</span>
+                    <span class="label">Burned</span>
+                    <span class="value"><span id="track-burned">0</span><small><small><small>kcal</small></small></small></span>
+                </div>
+                <div class="metric-card net">
+                    <span class="icon">⚖️</span>
+                    <span class="label">Net</span>
+                    <span class="value"><span id="track-net">0</span> <small><small><small>kcal</small></small></small></span>
+                </div>
+            </div>
+            
+            <div class="log-forms">
+                <form id="foodLogForm" class="input-card">
+                    <input type="text" id="foodName" placeholder="What did you eat?" required>
+                    <input type="number" id="foodCals" placeholder="Calories" required>
+                    <button type="submit" class="btn btn-small btn-food">Log Food</button>
+                </form>
+                
+                <form id="workoutLogForm" class="input-card">
+                    <select id="workoutName" required>
+                        <option value="" disabled selected>Select a workout...</option>
+                        <option value="Walking">Walking (30 mins)</option>
+                        <option value="Running">Running (30 mins)</option>
+                        <option value="Cycling">Cycling (30 mins)</option>
+                        <option value="Weightlifting">Weightlifting (45 mins)</option>
+                        <option value="Yoga">Yoga (45 mins)</option>
+                        <option value="Swimming">Swimming (30 mins)</option>
+                        <option value="HIIT">HIIT (30 mins)</option>
+                        <option value="Custom">Custom Workout...</option>
+                    </select>
+                    <input type="number" id="workoutCals" placeholder="Calories Burned" required>
+                    <button type="submit" class="btn btn-small btn-workout">Log Workout</button>
+                </form>
+            </div>
+
+            <div id="coach-tip" class="coach-tip" style="display: none;"></div>
+
+            <ul id="log-list" class="log-list"></ul>
+        </div>
+          <!-- <button onclick="window.location.href='/risk'" class="btn btn-primary" style="margin-bottom: 30px; background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);">
+            🩺 View Full Health & Disease Risk Report →
+        </button> -->
+        
+        <button onclick="window.location.href='/'" class="btn btn-secondary">← Start Over</button>
+    </div>
+
+    <button id="chatbot-toggle" class="chatbot-toggle">💬 Ask AI Coach</button>
+    
+    <div id="chatbot-window" class="chatbot-window">
+        <div class="chat-header">
+            <span>🤖 AI Diet Coach</span>
+            <button id="close-chat" class="close-btn">✖</button>
+        </div>
+        <div id="chat-messages" class="chat-messages">
+            <div class="message bot-message">Hi! I'm your AI Coach. I've analyzed your custom diet plan. Ask me anything about your macros, calories, or what to eat!</div>
+        </div>
+        <div class="chat-input-area">
+            <input type="text" id="chat-input" placeholder="Ask a question...">
+            <button id="send-chat" class="btn-send">➤</button>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='result.js') }}"></script>
+</body>
+</html>

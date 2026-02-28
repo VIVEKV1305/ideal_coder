@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Stats</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body style="background: #f8fafc; padding: 40px;">
+    
+    <div class="container" style="max-width: 800px; margin: 0 auto;">
+        
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+            <h1>🌍 Community Health Stats</h1>
+            <button onclick="window.location.href='/'" class="btn btn-secondary">Back to Home</button>
+        </div>
+
+        <div style="display: grid; gap: 15px;">
+            {% for user in users %}
+                <div style="background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center;">
+                    
+                    <div style="font-size: 18px; font-weight: 600; color: #1e293b;">
+                        👤 {{ user.username }}
+                    </div>
+                    
+                    <div style="text-align: right;">
+                        {% if user.bmi %}
+                            <span style="font-size: 14px; color: #64748b;">Latest BMI:</span>
+                            <span style="font-size: 20px; font-weight: 700; color: #3b82f6; margin-left: 10px;">{{ user.bmi }}</span>
+                        {% else %}
+                            <span style="font-size: 14px; color: #94a3b8; font-style: italic;">No plan generated yet</span>
+                        {% endif %}
+                    </div>
+                    
+                </div>
+            {% else %}
+                <p style="text-align: center; color: #64748b; margin-top: 40px;">No users have registered yet!</p>
+            {% endfor %}
+            
+        </div>
+    </div>
+
+</body>
+</html>

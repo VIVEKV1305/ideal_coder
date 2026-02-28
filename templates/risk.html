@@ -1,0 +1,78 @@
+<script>
+        const storedData = sessionStorage.getItem("dietData");
+
+        if (!storedData) {
+            window.location.href = "/";
+        } else {
+            try {
+                const result = JSON.parse(storedData);
+                
+                // FAIL-SAFE: If old data is found, force them to regenerate
+                if (!result.bmi || !result.health_risk) {
+                    alert("⚠️ We updated our algorithm! Please generate a new plan.");
+                    window.location.href = "/";
+                }
+                
+                const bmiValue = parseFloat(result.bmi);
+                const category = result.health_risk.category;
+                
+                // Populate Basic UI
+                document.getElementById("page-bmi").innerText = bmiValue;
+                document.getElementById("page-category").innerText = category;
+                document.getElementById("page-risk").innerText = result.health_risk.risk;
+
+                // Dynamic Colors
+                const riskContainer = document.getElementById("risk-container");
+                const categoryText = document.getElementById("page-category");
+                
+                riskContainer.style.borderLeftColor = result.health_risk.color;
+                categoryText.style.color = result.health_risk.color;
+
+                if (result.health_risk.color === "#ef4444") {
+                    riskContainer.style.backgroundColor = "#fef2f2"; 
+                } else if (result.health_risk.color === "#f59e0b") {
+                    riskContainer.style.backgroundColor = "#fffbeb"; 
+                } else {
+                    riskContainer.style.backgroundColor = "#ecfdf5"; 
+                }
+
+                // BMI Scale Animation
+                let scaleMin = 14;
+                let scaleMax = 42;
+                let percent = ((bmiValue - scaleMin) / (scaleMax - scaleMin)) * 100;
+                if (percent < 2) percent = 2;
+                if (percent > 98) percent = 98;
+
+                setTimeout(() => {
+                    document.getElementById("bmi-marker").style.left = percent + "%";
+                }, 100);
+
+                // INJECT DETAILED RISK INFORMATION
+                const implicationsList = document.getElementById("implications-list");
+                const actionsList = document.getElementById("actions-list");
+                let implications = [];
+                let actions = [];
+
+                if (category === "Underweight") {
+                    implications = ["Osteoporosis and decreased bone mass.", "Vitamin deficiencies and potential Anemia.", "Decreased immune function, leading to frequent illness.", "Hormonal imbalances and chronic fatigue."];
+                    actions = ["Consult a physician or registered dietitian.", "Focus on nutrient-dense, high-calorie foods (nuts, avocados, whole dairy).", "Incorporate strength training to build healthy muscle mass.", "Eat smaller, more frequent meals throughout the day."];
+                } else if (category === "Normal Weight") {
+                     implications = ["Lowest overall risk for weight-related lifestyle diseases.", "Healthy cardiovascular and respiratory function.", "Optimal joint health and mobility."];
+                     actions = ["Maintain your current balanced diet.", "Continue a routine of both cardiovascular and strength training.", "Get routine annual check-ups to monitor blood vitals.", "Ensure you are getting 7-9 hours of quality sleep."];
+                } else if (category === "Overweight") {
+                     implications = ["Increased risk of Hypertension (High Blood Pressure).", "Higher risk of developing Type 2 Diabetes and Insulin Resistance.", "Elevated bad cholesterol (LDL) levels.", "Early signs of joint strain, particularly in the knees and lower back."];
+                     actions = ["Aim for a slight, sustainable caloric deficit (tracked on your dashboard).", "Increase daily physical activity (e.g., aim for 8,000 - 10,000 steps).", "Prioritize whole foods, vegetables, and lean proteins over processed foods.", "Reduce intake of liquid calories like sodas and heavy coffees."];
+                } else { // Obese
+                     implications = ["Severe risk of Type 2 Diabetes and Insulin Resistance.", "High risk of Coronary Artery Disease and strokes.", "Sleep Apnea and other respiratory restrictions.", "Osteoarthritis (severe joint degradation) and chronic pain.", "Increased risk for certain types of metabolic cancers."];
+                     actions = ["Consult a healthcare provider immediately for a guided, safe weight loss plan.", "Aim for a steady caloric deficit using the diet plan provided on the dashboard.", "Start with low-impact exercises (swimming, walking) to protect your joints from injury.", "Monitor blood pressure and blood sugar levels regularly."];
+                }
+
+                implications.forEach(item => { implicationsList.innerHTML += `<li>${item}</li>`; });
+                actions.forEach(item => { actionsList.innerHTML += `<li>${item}</li>`; });
+                document.getElementById("detailed-info").style.display = "block";
+                
+            } catch (e) {
+                window.location.href = "/"; // If JSON is corrupted, go home
+            }
+        }
+    </script>

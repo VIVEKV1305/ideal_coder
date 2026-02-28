@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="background-shape"></div>
+    <div class="container" style="max-width: 800px;">
+        
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+            <h1 style="font-size: 24px;">👤 {{ user.username }}'s Profile</h1>
+            <div>
+                <button onclick="window.location.href='/'" class="btn btn-secondary" style="padding: 8px 16px; margin-right: 10px;">Home</button>
+                <button onclick="window.location.href='/logout'" class="btn" style="padding: 8px 16px; background: #ef4444; color: white;">Log Out</button>
+            </div>
+        </div>
+
+        <div class="stat-box" style="padding: 30px; margin-bottom: 25px;">
+            <h2 style="margin-top: 0; margin-bottom: 20px; color: #1e293b;">Your Latest Health Metrics</h2>
+            
+            {% if user.bmi %}
+                <div class="summary-stats">
+                    <div class="stat-box">
+                        <span class="stat-label">Current Weight</span>
+                        <span class="stat-value">{{ user.weight }} <small>kg</small></span>
+                    </div>
+                    <div class="stat-box highlight-box">
+                        <span class="stat-label">Latest BMI</span>
+                        <span class="stat-value">{{ user.bmi }}</span>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 25px; padding: 20px; background: #f8fafc; border-radius: 12px; border: 1px solid #e2e8f0;">
+                    <p style="margin: 0; color: #475569;"><strong>Age:</strong> {{ user.age }} years old</p>
+                    <p style="margin: 8px 0 0 0; color: #475569;"><strong>Height:</strong> {{ user.height }} cm</p>
+                    <p style="margin: 8px 0 0 0; color: #475569;"><strong>Daily Target:</strong> {{ user.target_calories }} kcal</p>
+                </div>
+            {% else %}
+                <div style="text-align: center; padding: 40px 20px; background: #f8fafc; border-radius: 12px; border: 1px dashed #cbd5e1;">
+                    <span style="font-size: 40px; display: block; margin-bottom: 15px;">📊</span>
+                    <h3 style="margin-top: 0; color: #475569;">No Data Found</h3>
+                    <p style="color: #64748b; margin-bottom: 20px;">You haven't generated a diet plan yet. Generate one to save your stats here!</p>
+                    <button onclick="window.location.href='/'" class="btn btn-primary">Generate Your First Plan</button>
+                </div>
+            {% endif %}
+        </div>
+
+    </div>
+</body>
+</html>
