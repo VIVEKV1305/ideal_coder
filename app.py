@@ -10,7 +10,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db' # Creates a loca
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # 👉 1. PUT YOUR NEW API KEY HERE
-client = genai.Client(api_key="AIzaSyDPX7LyYNmSngWRBUifGwwFClGwp0MesSY")
+client = genai.Client(api_key="use your own API key")
 
 # --- INITIALIZE DATABASE & LOGIN MANAGER ---
 db = SQLAlchemy(app)
